@@ -28,17 +28,18 @@ a.agency_name, ifile.revenue_date, ifile.name as filename, ifile.created_on as f
   END) * 0.01 as penalty
    
    
-   
-   
-
-, bev.created_on - ifile.created_on as time_interval
+, case when bev.created_on is null then
+    current_date - ifile.created_on
+    else
+    bev.created_on - ifile.created_on 
+    END AS time_interval
      
     from interop_file ifile 
         inner join interop_file_exchange exch on exch.RECEIVED_INTEROP_FILE_ID = ifile.interop_file_id
         inner join agency a on a.agency_id = ifile.source_agency_id
-        inner join road_event rev on rev.IBT_SOURCE_INTEROP_FILE_ID = ifile.interop_file_id
+        inner join road_event rev on rev.AVI_SOURCE_INTEROP_FILE_ID = ifile.interop_file_id
         right outer join billing_event bev on bev.event_time = rev.event_time and bev.toll_location_id = rev.toll_location_id and bev.toll_lane_id = rev.toll_lane_id and bev.agency_event_id = rev.agency_event_id
-    where ifile.ftp_file_type_code = 'CTOC_PAY_BY_PLATE'
+    where ifile.ftp_file_type_code = 'CTOC_TOLL'
     -- and ftp_file_subtype_code in ('RECEIVED', 'RECEIVEDPENDING')
     
     
