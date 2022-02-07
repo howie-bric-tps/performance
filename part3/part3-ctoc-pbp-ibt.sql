@@ -1,6 +1,11 @@
 
 select
-a.agency_name, ifile.revenue_date, ifile.name as filename, ifile.created_on as file_first_seen, bev.created_on as billing_event_created
+
+a.agency_name
+, ifile.revenue_date  -- OR rev.EVENT_REVENUE_DATE ?
+, ifile.name as filename
+, ifile.created_on as file_first_seen
+, bev.created_on as billing_event_created
 
 -- "minutes" defined as
 , case when bev.created_on is null then
