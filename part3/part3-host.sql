@@ -44,7 +44,11 @@ select
   
 from road_event rev
     right outer join billing_event bev on bev.event_time = rev.event_time and bev.toll_location_id = rev.toll_location_id and bev.toll_lane_id = rev.toll_lane_id and bev.agency_event_id = rev.agency_event_id
+    
+    -- not sure this is correct
     where rev.AVI_SOURCE_INTEROP_FILE_ID is null and rev.IBT_SOURCE_INTEROP_FILE_ID is null
+    
+    
     and rev.EVENT_REVENUE_DATE > '2021-12-15 00:00:00'
     -- order by rev.EVENT_REVENUE_DATE desc
 FETCH FIRST 10 ROWS ONLY;
